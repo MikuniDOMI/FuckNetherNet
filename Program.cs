@@ -146,8 +146,12 @@ internal static class Program
               0   success (for check: the binary is ORIGINAL or PATCHED)
               1   failure (for check: unrecognised bytes)
 
-            Patch applied (bedrock_server.exe 1.26.50.5, ImageBase 0x140000000):
-              VA 0x140091346    je 0x1400914FC   ->   jmp 0x1400914FC + nop
+            Patch applied (bedrock_server.exe):
+              the forced NetherNet transport check is located by a byte signature
+              (cmp dword ptr [rax+0x104], 2 followed by 'je'), so no server-build
+              address is hardcoded. The conditional jump is rewritten into an
+              unconditional one, making the 'TRANSPORT TYPE ERROR' logging block
+              dead code.
             """);
     }
 }
